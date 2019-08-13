@@ -1,0 +1,33 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: zuul-ratelimit
+  redis:
+    host: localhost
+    port: 6379
+zuul:
+  routes:
+    rest-server:
+      path: /hello2/**
+      strip-prefix: false
+      url: http://localhost:9000
+  ratelimit:
+#    key-prefix: hell
+    enabled: true
+    repository: REDIS
+    behind-proxy: true
+    add-response-headers: true
+    default-policy-list: #optional - will apply unless specific policy exists
+      - limit: 3 #optional - request number limit per refresh interval window
+#        quota: 10 #optional - request time limit per refresh interval window (in seconds)
+        refresh-interval: 30 #default 60 (in seconds)
+        type: #optional
+          - user
+#          - origin
+#          - url
+#          - httpmethod
+#          - hellz
+    customRules:
+#      - userip
+      - userid
