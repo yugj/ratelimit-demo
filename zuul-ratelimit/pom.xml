@@ -11,6 +11,10 @@
 
     <artifactId>zuul-ratelimit</artifactId>
 
+    <properties>
+        <start-class>zuul.ZuulStart</start-class>
+    </properties>
+
     <dependencies>
 
         <dependency>

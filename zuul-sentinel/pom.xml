@@ -11,6 +11,10 @@
 
     <artifactId>zuul-sentinel</artifactId>
 
+    <properties>
+        <start-class>sentinel.ZuulSentinelStart</start-class>
+    </properties>
+
     <dependencies>
 
         <dependency>

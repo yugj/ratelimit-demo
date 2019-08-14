@@ -11,6 +11,10 @@
 
     <artifactId>sentinel-mvc-server</artifactId>
 
+    <properties>
+        <start-class>mvc.SentinelMvcServerStart</start-class>
+    </properties>
+
     <dependencies>
 
         <dependency>
