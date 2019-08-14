@@ -1,0 +1,8 @@
+vm options
+-Dproject.name=zuul-sentinel-3 -Dcsp.sentinel.app.type=1 -Dcsp.sentinel.dashboard.server=localhost:8080
+
+配置方式
+
+上述参数所有均可通过 JVM -D 参数指定。除 project.name 以及日志的配置项（如 csp.sentinel.log.dir）之外，其余参数还可通过 properties 文件指定，路径为 ${user_home}/logs/csp/${project.name}.properties。
+
+优先级顺序：JVM -D 参数的优先级最高，若 properties 和 JVM 参数中有相同项的配置，以 JVM -D 参数配置的为准。

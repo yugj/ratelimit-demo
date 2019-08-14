@@ -10,3 +10,13 @@ zuul:
       strip-prefix: false
       url: http://localhost:9000
 
+project:
+  name: ${spring.application.name}
+csp:
+  sentinel:
+    app:
+      type: 1
+    dashboard:
+      server: localhost:8080
+    api:
+      port: 8720
