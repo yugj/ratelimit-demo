@@ -32,11 +32,13 @@ public class ClusterDemoController {
 
     @GetMapping("/hello/{name}")
     public String apiHello(@PathVariable String name) throws Exception {
+        System.out.println(name);
         return service.sayHello(name);
     }
 
     @GetMapping("/hello2/{name}")
     public String apiHello2(@PathVariable String name) throws Exception {
+        System.out.println(name);
         return service.sayHello2(name);
     }
 }
