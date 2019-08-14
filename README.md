@@ -22,15 +22,13 @@ curl localhost:9002/hello2/xx
 zuul ratelimit
 
 ```
-ab -n 1 -c 1 -H "xx-userid:88" http://localhost:9001/hello2/xx
-
+ ab -n 100 -c 100 -H "xx-userid:88" http://localhost:9001/hello2/xx
 ```
 
 zuul sentinel
 
 ```
-ab -n 1 -c 1 -H "xx-userid:88" http://localhost:9002/hello2/xx
-
+yugj$ ab -n 100 -c 100 -H "xx-userid:88" http://localhost:9002/hello2/xx
 ```
 
 对比 sentinel 单机模式在内存中规则，性能和稳定性相对ratelimit 通过redis好，
