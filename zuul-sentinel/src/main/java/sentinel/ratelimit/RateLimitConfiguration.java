@@ -10,6 +10,7 @@ import com.alibaba.csp.sentinel.adapter.gateway.zuul.filters.SentinelZuulPostFil
 import com.alibaba.csp.sentinel.adapter.gateway.zuul.filters.SentinelZuulPreFilter;
 import com.alibaba.csp.sentinel.cluster.ClusterStateManager;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
+import com.alibaba.fastjson.JSON;
 import com.netflix.zuul.ZuulFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +51,7 @@ public class RateLimitConfiguration {
 
         clusterConfig();
 
-//        initGatewayRules();
+        initGatewayRules();
 
         //默认 fallback provider不打印一些日志，另外返回格式不是业务需要，重写下好点
         ZuulBlockFallbackManager.registerProvider(new MyBlockFallbackProvider());
@@ -100,11 +101,14 @@ public class RateLimitConfiguration {
         //多个规则这边补充
         rules.add(new GatewayFlowRule("rest-server")
                 // 限流阈值每秒允许1个
-                .setCount(100)
+                .setCount(1)
                 .setIntervalSec(1)
                 .setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_DEFAULT)
                 .setParamItem(paramFlowItem)
         );
+
+        System.out.println("rules");
+        System.out.println(JSON.toJSONString(rules));
 
         GatewayRuleManager.loadRules(rules);
     }

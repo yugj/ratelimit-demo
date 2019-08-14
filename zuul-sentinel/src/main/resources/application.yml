@@ -10,8 +10,9 @@ zuul:
       strip-prefix: false
       url: http://localhost:9000
 
-project:
-  name: ${spring.application.name}
+# 除 project.name 以及日志的配置项（如 csp.sentinel.log.dir）之外，
+# 其余参数还可通过 properties 文件指定，
+# 路径为 ${user_home}/logs/csp/${project.name}.properties
 csp:
   sentinel:
     app:
