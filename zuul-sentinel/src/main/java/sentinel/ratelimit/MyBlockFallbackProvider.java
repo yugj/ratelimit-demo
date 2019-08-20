@@ -6,17 +6,18 @@ import com.alibaba.csp.sentinel.adapter.gateway.zuul.fallback.ZuulBlockFallbackP
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 
 /**
+ * fallback provider
+ *
  * @author yugj
  * @date 2019/8/14 上午10:21.
  */
 public class MyBlockFallbackProvider implements ZuulBlockFallbackProvider {
 
-
     private Logger logger = LoggerFactory.getLogger(DefaultBlockFallbackProvider.class);
 
-    // you can define route as service level
     @Override
     public String getRoute() {
         return "*";
@@ -24,10 +25,13 @@ public class MyBlockFallbackProvider implements ZuulBlockFallbackProvider {
 
     @Override
     public BlockResponse fallbackResponse(String route, Throwable cause) {
-        logger.info(String.format("[Sentinel DefaultBlockFallbackProvider] Run fallback route: %s", route));
+
         if (cause instanceof BlockException) {
-            return new BlockResponse(429, "Sentinel block exception", route);
+            String rule = ((BlockException) cause).getRule().toString();
+            logger.info("sentinel block fallback ,route :{}, rule :{}, code :{}, exp :{}", route, rule, HttpStatus.TOO_MANY_REQUESTS.value(), cause);
+            return new BlockResponse(429, "too many request", "");
         } else {
+            logger.info("sentinel block fallback ,route :{}, code :{}, exp :{}", route, HttpStatus.INTERNAL_SERVER_ERROR.value(), cause);
             return new BlockResponse(500, "System Error", route);
         }
     }

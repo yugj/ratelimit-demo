@@ -6,3 +6,10 @@ vm options
 上述参数所有均可通过 JVM -D 参数指定。除 project.name 以及日志的配置项（如 csp.sentinel.log.dir）之外，其余参数还可通过 properties 文件指定，路径为 ${user_home}/logs/csp/${project.name}.properties。
 
 优先级顺序：JVM -D 参数的优先级最高，若 properties 和 JVM 参数中有相同项的配置，以 JVM -D 参数配置的为准。
+
+
+zk data rule:
+set /sentinel/flow-rules/mg-zuul '[{"burst":0,"controlBehavior":0,"count":10.0,"grade":1,"intervalSec":1,"maxQueueingTimeoutMs":500,"paramItem":{"fieldName":"uip","matchStrategy":0,"parseStrategy":2},"resource":"rest-server","resourceMode":0}]'
+
+sentinel server:
+java -Dserver.port=8080 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dproject.name=sentinel-dashboard -Dcsp.sentinel.log.dir=/data/logs/csp -jar /usr/local/run/sentinel-dashboard-1.6.3.jar

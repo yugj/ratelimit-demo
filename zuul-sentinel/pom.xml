@@ -21,6 +21,8 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
         </dependency>
+
+        <!-- sentinel zuul rate limit -->
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-zuul-adapter</artifactId>
@@ -35,8 +37,14 @@
 
         <dependency>
             <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-cluster-client-default</artifactId>
+            <artifactId>sentinel-datasource-zookeeper</artifactId>
             <version>1.6.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
         </dependency>
 
     </dependencies>
