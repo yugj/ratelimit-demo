@@ -20,14 +20,29 @@ public class FlowRuleGenerator {
         GatewayParamFlowItem paramFlowItem = new GatewayParamFlowItem();
         //基于header 限流
         paramFlowItem.setParseStrategy(SentinelGatewayConstants.PARAM_PARSE_STRATEGY_HEADER);
-        paramFlowItem.setFieldName("mg-us");
+        paramFlowItem.setFieldName("uip");
         //多个规则这边补充
-        rules.add(new GatewayFlowRule("rest-server")
+        rules.add(new GatewayFlowRule("sop")
+                // 限流阈值每秒允许1个
+                .setCount(50)
+                .setIntervalSec(1)
+                .setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_DEFAULT)
+                .setParamItem(paramFlowItem)
+        );
+
+        GatewayParamFlowItem paramFlowItem2 = new GatewayParamFlowItem();
+        //基于header 限流
+        paramFlowItem2.setParseStrategy(SentinelGatewayConstants.PARAM_PARSE_STRATEGY_HEADER);
+        paramFlowItem2.setFieldName("MG-imei");
+        paramFlowItem2.setMatchStrategy(SentinelGatewayConstants.PARAM_MATCH_STRATEGY_EXACT);
+        paramFlowItem2.setPattern("862183031475339");
+
+        rules.add(new GatewayFlowRule("sop")
                 // 限流阈值每秒允许1个
                 .setCount(1)
                 .setIntervalSec(1)
                 .setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_DEFAULT)
-                .setParamItem(paramFlowItem)
+                .setParamItem(paramFlowItem2)
         );
 
         System.out.println("rules");
