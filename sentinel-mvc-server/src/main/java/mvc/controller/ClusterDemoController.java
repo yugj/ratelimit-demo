@@ -30,6 +30,8 @@ public class ClusterDemoController {
     @Autowired
     private DemoService service;
 
+    private static final String ERROR = "error";
+
     @GetMapping("/hello/{name}")
     public String apiHello(@PathVariable String name) throws Exception {
         System.out.println(name);
@@ -38,7 +40,14 @@ public class ClusterDemoController {
 
     @GetMapping("/hello2/{name}")
     public String apiHello2(@PathVariable String name) throws Exception {
+
         System.out.println(name);
+
+        //test error 500
+        if (ERROR.equals(name)) {
+            throw new IllegalArgumentException("error");
+        }
+
         return service.sayHello2(name);
     }
 }

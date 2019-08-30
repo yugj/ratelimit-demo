@@ -1,0 +1,26 @@
+server:
+  port: 9003
+spring:
+  application:
+    name: zuul-hystrix
+zuul:
+  routes:
+    rest-server:
+      path: /hello2/**
+      strip-prefix: false
+      url: http://localhost:9000
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1
+      maximumSize: 100
+      allowMaximumSizeToDivergeFromCoreSize: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
+      circuitBreaker:
+        requestVolumeThreshold: 2

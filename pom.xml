@@ -12,6 +12,7 @@
         <module>zuul-sentinel</module>
         <module>zuul-ratelimit</module>
         <module>sentinel-mvc-server</module>
+        <module>zuul-hystrix</module>
     </modules>
 
 
