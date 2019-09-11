@@ -6,6 +6,6 @@ package sentinel.ratelimit;
  */
 class RateLimitConstant {
 
-    static final String RATE_LIMIT_RULE_PATH = "/sentinel/flow-rules/mg-zuul";
+    static final String RATE_LIMIT_RULE_PATH = "/sentinel/flow-rules/zuul-sentinel";
 
 }

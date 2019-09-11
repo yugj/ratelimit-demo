@@ -31,7 +31,7 @@ public class DataSourceInitConfiguration {
     @PostConstruct
     public void doInit() throws Exception {
 
-        initGatewayRules();
+        initGatewayRules2();
 
         //默认 fallback provider不打印日志，另外返回格式不是业务需要，重写下
         ZuulBlockFallbackManager.registerProvider(new MyBlockFallbackProvider());
