@@ -1,8 +1,7 @@
 package cn.yugj.test.redisson;
 
 import org.redisson.Redisson;
-import org.redisson.api.RMapCache;
-import org.redisson.api.RedissonClient;
+import org.redisson.api.*;
 import org.redisson.client.codec.IntegerCodec;
 import org.redisson.config.Config;
 
@@ -16,12 +15,16 @@ import java.util.concurrent.TimeUnit;
 public class RedissonRateLimitTest2 {
 
     private static RedissonClient redisClient;
+    private static RRateLimiter rRateLimiter;
 
     private static final String KEY = "MRL:" + "hell";
 
     static {
-        Config config = getSingleConfig();
+        Config config = getClusterConfig();
         redisClient = Redisson.create(config);
+
+        rRateLimiter = redisClient.getRateLimiter(KEY);
+        rRateLimiter.trySetRate(RateType.OVERALL, 1, 10, RateIntervalUnit.SECONDS);
     }
 
     private static Config getClusterConfig() {
@@ -53,7 +56,8 @@ public class RedissonRateLimitTest2 {
         for (int i = 0; i < 2000; i++) {
             Thread.sleep(500L);
 
-            boolean flag = entry(KEY, 10, 2);
+//            boolean flag = entry(KEY, 10, 2);
+            boolean flag = ratelimit();
 
             if (flag) {
                 System.out.println((new Date()) + "hell");
@@ -95,5 +99,17 @@ public class RedissonRateLimitTest2 {
         }
 
         return false;
+    }
+
+
+
+    public static boolean ratelimit() {
+
+//        RRateLimiter limiter = redisClient.getRateLimiter(KEY);
+// Initialization required only once.
+// 5 permits per 2 seconds
+//        limiter.trySetRate(RateType.OVERALL, 1, 10, RateIntervalUnit.SECONDS);
+
+         return rRateLimiter.tryAcquire(1);
     }
 }
