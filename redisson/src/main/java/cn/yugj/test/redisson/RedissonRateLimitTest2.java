@@ -15,16 +15,12 @@ import java.util.concurrent.TimeUnit;
 public class RedissonRateLimitTest2 {
 
     private static RedissonClient redisClient;
-    private static RRateLimiter rRateLimiter;
 
     private static final String KEY = "MRL:" + "hell";
 
     static {
-        Config config = getClusterConfig();
+        Config config = getSingleConfig();
         redisClient = Redisson.create(config);
-
-        rRateLimiter = redisClient.getRateLimiter(KEY);
-        rRateLimiter.trySetRate(RateType.OVERALL, 1, 10, RateIntervalUnit.SECONDS);
     }
 
     private static Config getClusterConfig() {
@@ -50,14 +46,14 @@ public class RedissonRateLimitTest2 {
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println("reload start");
-        reload();
+//        reload();
         System.out.println("reload end");
 
         for (int i = 0; i < 2000; i++) {
             Thread.sleep(500L);
 
-//            boolean flag = entry(KEY, 10, 2);
-            boolean flag = ratelimit();
+            boolean flag = entry("test3", 10, 1);
+//            boolean flag = rateLimit();
 
             if (flag) {
                 System.out.println((new Date()) + "hell");
@@ -79,6 +75,7 @@ public class RedissonRateLimitTest2 {
 
     /**
      * 进入
+     * 基于RMapCache 做限速器
      * @param entryKey key
      * @param timeToLiveInSeconds 时间窗口 存活时间
      * @param limit 限制数量
@@ -102,14 +99,23 @@ public class RedissonRateLimitTest2 {
     }
 
 
+    /**
+     * test demo
+     * copy from github demo
+     *
+     * 127.0.0.1:6379> keys *
+     * 1) "MRL:hell" 生成的配置文件 limit ttl等配置，ttl = -1 意味着不会被自动清理，hash 结构
+     * 2) "redisson__execute_task_once_latch:{MRL:hell}" string 类型 ，暂时不清楚存储内容
+     * 3) "{MRL:hell}:value" 缓存时间为ttl 值为0
+     * @return
+     */
+    public static boolean rateLimit() {
 
-    public static boolean ratelimit() {
+        RRateLimiter limiter = redisClient.getRateLimiter(KEY);
+        //todo、 Initialization required only once. and never change
+        // 5 permits per 2 seconds
+        limiter.trySetRate(RateType.OVERALL, 1, 10, RateIntervalUnit.SECONDS);
 
-//        RRateLimiter limiter = redisClient.getRateLimiter(KEY);
-// Initialization required only once.
-// 5 permits per 2 seconds
-//        limiter.trySetRate(RateType.OVERALL, 1, 10, RateIntervalUnit.SECONDS);
-
-         return rRateLimiter.tryAcquire(1);
+         return limiter.tryAcquire(1);
     }
 }
