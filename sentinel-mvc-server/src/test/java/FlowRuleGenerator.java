@@ -1,3 +1,5 @@
+import com.alibaba.csp.sentinel.slots.block.ClusterRuleConstant;
+import com.alibaba.csp.sentinel.slots.block.flow.ClusterFlowConfig;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.fastjson.JSON;
 
@@ -21,10 +23,22 @@ public class FlowRuleGenerator {
         Set<FlowRule> rules = new HashSet<>();
 
         FlowRule rule = new FlowRule();
+
+        ClusterFlowConfig flowConfig = new ClusterFlowConfig();
+        flowConfig.setFallbackToLocalWhenFail(false);
+        flowConfig.setFlowId(1000L);
+        flowConfig.setSampleCount(1);
+        flowConfig.setWindowIntervalMs(1000);
+        flowConfig.setThresholdType(ClusterRuleConstant.FLOW_THRESHOLD_GLOBAL);
+
+
+        rule.setClusterMode(true);
+
         rule.setResource("sayHello");
-        rule.setCount(1);
+        rule.setCount(2);
 
         rules.add(rule);
+        rule.setClusterConfig(flowConfig);
 
         System.out.println(JSON.toJSONString(rules));
     }

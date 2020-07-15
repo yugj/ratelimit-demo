@@ -1,0 +1,11 @@
+mvn clean package
+
+
+java -Dproject.name=sentinel-mvc-server -Dcsp.sentinel.dashboard.server=localhost:8080 -Dcsp.sentinel.log.dir=/data/logs/local/csp -jar /Users/yugj/mdev/yugj/ratelimit-demo/sentinel-mvc-server/target/sentinel-mvc-server-1.0-SNAPSHOT.jar --server.port=9100
+java -Dproject.name=sentinel-mvc-server -Dcsp.sentinel.dashboard.server=localhost:8080 -Dcsp.sentinel.log.dir=/data/logs/local/csp -jar /Users/yugj/mdev/yugj/ratelimit-demo/sentinel-mvc-server/target/sentinel-mvc-server-1.0-SNAPSHOT.jar --server.port=9101
+
+
+查规则
+http://<ip>:<port>?getRules?type=flow
+
+http://localhost:8720?getRules?type=flow

@@ -14,6 +14,7 @@
         <module>sentinel-mvc-server</module>
         <module>zuul-hystrix</module>
         <module>redisson</module>
+        <module>sentinel-cluster-server</module>
     </modules>
 
 

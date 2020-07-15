@@ -2,6 +2,8 @@ import com.alibaba.csp.sentinel.adapter.gateway.common.SentinelGatewayConstants;
 import com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayFlowRule;
 import com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayParamFlowItem;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
+import com.alibaba.csp.sentinel.slots.block.flow.ClusterFlowConfig;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.fastjson.JSON;
 
 import java.util.HashSet;
@@ -49,5 +51,13 @@ public class FlowRuleGenerator {
         System.out.println(JSON.toJSONString(rules));
 
 
+    }
+
+    private static void clusterFlowRule() {
+        FlowRule rule = new FlowRule();
+        rule.setClusterMode(true);
+
+        ClusterFlowConfig config = new ClusterFlowConfig();
+        rule.setClusterConfig(config);
     }
 }
