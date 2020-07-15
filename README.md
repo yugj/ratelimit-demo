@@ -1,4 +1,47 @@
 # 限流测试demo
+## 启动命令
+- 控制台启动命令：
+```
+java -Dserver.port=8080 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dproject.name=sentinel-dashboard -Dcsp.sentinel.log.dir=/data/logs/csp -jar sentinel-dashboard-1.6.3-zk.jar
+
+```
+
+server.port为控制台占用的端口
+
+csp.sentinel.dashboard.server为控制台地址
+
+csp.sentinel.log.dir指定日志文件路径
+
+默认用户名密码为sentinel
+
+点击编辑[流控规则]，基于现有数据 实时编辑或新增流控规则
+
+- 应用启动参数新增
+```
+-Dproject.name={appname} -Dcsp.sentinel.app.type=1 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dcsp.sentinel.log.dir=/data/logs/{profile}/csp
+
+```
+其中
+
+project.name为应用名称
+
+csp.sentinel.app.type值等于1标识网关应用
+
+csp.sentinel.dashboard.server 配置控制台地址
+
+csp.sentinel.log.dir指定日志文件路径
+
+{profile}:环境标识
+
+hotfix demo:
+
+java -Dproject.name=sentinel-mvc-server -Dcsp.sentinel.dashboard.server=localhost:19004 -Dcsp.sentinel.log.dir=/data/logs/local/csp -jar sentinel-mvc-server-1.1.0.jar
+
+
+
+上述参数所有均可通过 JVM -D 参数指定。除 project.name 以及日志的配置项（如 csp.sentinel.log.dir）之外，其余参数还可通过 properties 文件指定，路径为 ${user_home}/logs/csp/${project.name}.properties
+
+
 ## sentinel-mvc-server
 
 ```

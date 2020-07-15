@@ -22,9 +22,9 @@ public class FlowRuleGenerator {
         paramFlowItem.setParseStrategy(SentinelGatewayConstants.PARAM_PARSE_STRATEGY_HEADER);
         paramFlowItem.setFieldName("uip");
         //多个规则这边补充
-        rules.add(new GatewayFlowRule("sop")
+        rules.add(new GatewayFlowRule("rest-server")
                 // 限流阈值每秒允许1个
-                .setCount(1000)
+                .setCount(1)
                 .setIntervalSec(1)
                 .setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_DEFAULT)
                 .setParamItem(paramFlowItem)
