@@ -46,7 +46,7 @@ public class RateLimitConfiguration {
 
     private void registerWithZookeeper() {
         final String remoteAddress = "127.0.0.1:2181";
-        final String path = "/Sentinel-Demo/SYSTEM-CODE-DEMO-FLOW";
+        final String path = "/sentinel/flow-rules/sentinel-mvc-server";
 
         ReadableDataSource<String, List<FlowRule>> flowRuleDataSource = new ZookeeperDataSource<>(remoteAddress, path,
                 buildFlowConfigParser());

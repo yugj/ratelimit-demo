@@ -2,7 +2,7 @@
 ## 启动命令
 - 控制台启动命令：
 ```
-java -Dserver.port=8080 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dproject.name=sentinel-dashboard -Dcsp.sentinel.log.dir=/data/logs/csp -jar sentinel-dashboard-1.6.3-zk.jar
+java -Dserver.port=8080 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dproject.name=sentinel-dashboard -Dcsp.sentinel.log.dir=/data/logs/dashboard/csp -jar sentinel-dashboard-1.6.3-zk.jar
 
 ```
 
