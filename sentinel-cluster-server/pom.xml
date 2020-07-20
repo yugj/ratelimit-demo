@@ -11,6 +11,10 @@
 
     <artifactId>sentinel-cluster-server</artifactId>
 
+    <properties>
+        <start-class>cn.yugj.test.sentinel.cluster.server.ClusterTokenServerStarter</start-class>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -28,9 +32,14 @@
             <version>1.6.3</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.csp</groupId>-->
+<!--            <artifactId>sentinel-datasource-zookeeper</artifactId>-->
+<!--            <version>1.6.3</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-datasource-zookeeper</artifactId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
             <version>1.6.3</version>
         </dependency>
 

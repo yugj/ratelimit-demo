@@ -31,7 +31,7 @@ public class FlowTest {
         while (true) {
             Thread.sleep(100L);
             try {
-                String hell = template.getForObject("http://localhost:9101/hello/hell?uipp=x", String.class);
+                String hell = template.getForObject("http://localhost:8888/hello/hell?uipp=x", String.class);
                 System.out.println("t2:" + hell);
             } catch (Exception e) {
                 System.out.println("429");
