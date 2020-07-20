@@ -3,6 +3,7 @@ package mvc.ratelimit;
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
 import com.alibaba.csp.sentinel.datasource.Converter;
 import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
+import com.alibaba.csp.sentinel.datasource.nacos.NacosDataSource;
 import com.alibaba.csp.sentinel.datasource.redis.RedisDataSource;
 import com.alibaba.csp.sentinel.datasource.redis.config.RedisConnectionConfig;
 import com.alibaba.csp.sentinel.datasource.zookeeper.ZookeeperDataSource;
@@ -41,7 +42,18 @@ public class RateLimitConfiguration {
 
     private void loadRules() {
 
-        registerWithZookeeper();
+//        registerWithZookeeper();
+        registerWithNacos();
+    }
+
+    private void registerWithNacos() {
+        String remoteAddress = "localhost";
+        String groupId = "SENTINEL_GROUP";
+        String dataId = "sentinel-mvc-server-flow-rules";
+        ReadableDataSource<String, List<FlowRule>> flowRuleDataSource = new NacosDataSource<>(remoteAddress, groupId, dataId,
+                source -> JSON.parseObject(source, new TypeReference<List<FlowRule>>() {
+                }));
+        FlowRuleManager.register2Property(flowRuleDataSource.getProperty());
     }
 
     private void registerWithZookeeper() {
