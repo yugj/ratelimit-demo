@@ -35,6 +35,11 @@ public class ClusterTokenServerStarter {
 
         init();
 
+        ClusterServerConfigManager.loadGlobalTransportConfig(new ServerTransportConfig()
+                .setIdleSeconds(600)
+                .setPort(11111));
+
+//        initClientServerAssignProperty();
         ClusterServerConfigManager.loadServerNamespaceSet(Collections.singleton(DemoConstants.APP_NAME));
 
 
@@ -73,38 +78,46 @@ public class ClusterTokenServerStarter {
         ClusterServerConfigManager.registerServerTransportProperty(transportConfigDs.getProperty());
     }
 
-//    private static void initNamespace() {
-//        // 加载namespace
-//        ClusterServerConfigManager.loadServerNamespaceSet(Collections.singleton(APP_NAME));
-//    }
-//
-//    private static void initTransport() {
-//        // 加载ServerTransportConfig
-//        ClusterServerConfigManager.loadGlobalTransportConfig(new ServerTransportConfig()
-//                .setIdleSeconds(600)
-//                .setPort(18730));
-//    }
-//    /**
-//     * 初始化集群限流的Supplier
-//     * 这样如果后期集群限流的规则发生变更的话，系统可以自动感知到
-//     */
-//    private static void initClusterFlowSupplier() {
-//
-//        final String path = "/Sentinel-Demo/Token-Server";
-//        final String zkNodes = "localhost:2181";
-//
-//        // Supplier 会根据 namespace 生成的动态规则源，类型为 SentinelProperty<List<FlowRule>>，针对不同的 namespace 生成不同的规则源（监听不同 namespace 的 path）.
-//        // 默认 namespace 为应用名（project.name）
-//        // ClusterFlowRuleManager 针对集群限流规则，ClusterParamFlowRuleManager 针对集群热点规则，配置方式类似
-//        ClusterFlowRuleManager.setPropertySupplier(namespace -> {
-//            return new ZookeeperDataSource<>(zkNodes, path,
-//                    buildFlowConfigParser()).getProperty();
+
+//    private static void initClientServerAssignProperty() {
+//        String clusterMapDataId = "client-server-assign-map-data";
+//        // Cluster map format:
+//        // [{"clientSet":["112.12.88.66@8729","112.12.88.67@8727"],"ip":"112.12.88.68","machineId":"112.12.88.68@8728","port":11111}]
+//        // machineId: <ip@commandPort>, commandPort for port exposed to Sentinel dashboard (transport module)
+//        ReadableDataSource<String, ClusterClientAssignConfig> clientAssignDs = new NacosDataSource<>(remoteAddress, groupId,
+//                clusterMapDataId, source -> {
+//            List<ClusterGroupEntity> groupList = JSON.parseObject(source, new TypeReference<List<ClusterGroupEntity>>() {});
+//            return Optional.ofNullable(groupList)
+//                    .flatMap(this::extractClientAssignment)
+//                    .orElse(null);
 //        });
-//
+//        ClusterClientConfigManager.registerServerAssignProperty(clientAssignDs.getProperty());
 //    }
 //
-//    private static Converter<String, List<FlowRule>> buildFlowConfigParser() {
-//        return source -> JSON.parseObject(source, new TypeReference<List<FlowRule>>() {
-//        });
+//    private Optional<ClusterClientAssignConfig> extractClientAssignment(List<ClusterGroupEntity> groupList) {
+//        if (groupList.stream().anyMatch(this::machineEqual)) {
+//            return Optional.empty();
+//        }
+//        // Build client assign config from the client set of target server group.
+//        for (ClusterGroupEntity group : groupList) {
+//            if (group.getClientSet().contains(getCurrentMachineId())) {
+//                String ip = group.getIp();
+//                Integer port = group.getPort();
+//                return Optional.of(new ClusterClientAssignConfig(ip, port));
+//            }
+//        }
+//        return Optional.empty();
 //    }
+//
+//    private boolean machineEqual(/*@Valid*/ ClusterGroupEntity group) {
+//        return getCurrentMachineId().equals(group.getMachineId());
+//    }
+//
+//    private String getCurrentMachineId() {
+//        // Note: this may not work well for container-based env.
+////        return HostNameUtil.getIp() + SEPARATOR + TransportConfig.getRuntimePort();
+//        return HostNameUtil.getIp() + SEPARATOR + "8721";
+//    }
+//
+//    private static final String SEPARATOR = "@";
 }

@@ -47,7 +47,8 @@ public class RateLimitConfiguration {
     public void doInit() {
 
         loadRules();
-        clientTokenServerAssign();
+//        clientTokenServerAssign();
+        initClientServerAssignProperty();
 
     }
 
@@ -134,6 +135,7 @@ public class RateLimitConfiguration {
     private String getCurrentMachineId() {
         // Note: this may not work well for container-based env.
         return HostNameUtil.getIp() + SEPARATOR + TransportConfig.getRuntimePort();
+//        return HostNameUtil.getIp() + SEPARATOR + "8721";
     }
 
     private static final String SEPARATOR = "@";
