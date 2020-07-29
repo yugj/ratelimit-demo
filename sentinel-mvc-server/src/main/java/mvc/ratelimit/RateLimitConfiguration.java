@@ -47,8 +47,12 @@ public class RateLimitConfiguration {
     public void doInit() {
 
         loadRules();
+
+        ClusterClientAssignConfig clientAssignConfig = new ClusterClientAssignConfig("192.168.250.203",18730);
+        ClusterClientConfigManager.applyNewAssignConfig(clientAssignConfig);
+
 //        clientTokenServerAssign();
-        initClientServerAssignProperty();
+//        initClientServerAssignProperty();
 
     }
 

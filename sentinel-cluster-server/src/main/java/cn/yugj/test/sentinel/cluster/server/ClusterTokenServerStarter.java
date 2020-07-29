@@ -35,9 +35,9 @@ public class ClusterTokenServerStarter {
 
         init();
 
-        ClusterServerConfigManager.loadGlobalTransportConfig(new ServerTransportConfig()
-                .setIdleSeconds(600)
-                .setPort(11111));
+//        ClusterServerConfigManager.loadGlobalTransportConfig(new ServerTransportConfig()
+//                .setIdleSeconds(600)
+//                .setPort(11111));
 
 //        initClientServerAssignProperty();
         ClusterServerConfigManager.loadServerNamespaceSet(Collections.singleton(DemoConstants.APP_NAME));

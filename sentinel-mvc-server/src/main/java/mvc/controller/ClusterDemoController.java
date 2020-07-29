@@ -15,6 +15,8 @@
  */
 package mvc.controller;
 
+import com.alibaba.csp.sentinel.cluster.client.config.ClusterClientAssignConfig;
+import com.alibaba.csp.sentinel.cluster.client.config.ClusterClientConfigManager;
 import mvc.service.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +37,10 @@ public class ClusterDemoController {
     @GetMapping("/hello/{name}")
     public String apiHello(@PathVariable String name) throws Exception {
         System.out.println(name);
+
+        ClusterClientAssignConfig clientAssignConfig = new ClusterClientAssignConfig("192.168.250.203",18730);
+        ClusterClientConfigManager.applyNewAssignConfig(clientAssignConfig);
+
         return service.sayHello(name);
     }
 
