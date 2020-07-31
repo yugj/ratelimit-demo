@@ -15,6 +15,7 @@
         <module>zuul-hystrix</module>
         <module>redisson</module>
         <module>sentinel-cluster-server</module>
+        <module>guava-rateLimiter</module>
     </modules>
 
 
